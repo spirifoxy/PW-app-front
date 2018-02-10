@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../auth.service';
+import {AuthGuard} from '../auth.guard';
 
 @Component({
   selector: 'app-login',
@@ -14,10 +15,15 @@ export class LoginComponent implements OnInit {
   error: string;
 
   constructor( private router: Router,
-               private authenticationService: AuthService) {}
+               private authenticationService: AuthService,
+               private authenticationGuard: AuthGuard) {}
 
   ngOnInit() {
     this.authenticationService.logout();
+    // TODO change that
+    // if (this.authenticationGuard.canActivate) {
+    //   this.router.navigate(['/transactions']);
+    // }
   }
 
 
@@ -30,7 +36,7 @@ export class LoginComponent implements OnInit {
       .subscribe(result => {
 
         console.log(result);
-        this.router.navigate(['/api']);
+        this.router.navigate(['/transactions']);
 
       }, loginError => this.error = loginError.message);
 
