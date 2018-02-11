@@ -19,11 +19,10 @@ export class LoginComponent implements OnInit {
                private authenticationGuard: AuthGuard) {}
 
   ngOnInit() {
-    this.authenticationService.logout();
-    // TODO change that
-    // if (this.authenticationGuard.canActivate) {
-    //   this.router.navigate(['/transactions']);
-    // }
+    this.authenticationService.logout(); // TODO remove that
+    if (AuthService.isUserAuthorized()) {
+      this.router.navigate(['/transactions']);
+    }
   }
 
 

@@ -9,19 +9,23 @@ import { LoginComponent } from './login/login.component';
 import {AuthService} from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { TransactionsComponent } from './transactions/transactions.component';
+import { RegisterComponent } from './register/register.component';
 
 
 const routes: Routes = [
   {path: '', component : AppComponent},
   {path: 'login', component : LoginComponent},
+  {path: 'register', component : RegisterComponent},
   {path: 'transactions', component: TransactionsComponent, canActivate : [AuthGuard]},
+  {path: '**', redirectTo: '/login'}
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    TransactionsComponent
+    RegisterComponent,
+    TransactionsComponent,
   ],
   imports: [
     BrowserModule,

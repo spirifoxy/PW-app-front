@@ -1,0 +1,19 @@
+<div class="wrapper">
+  <form (submit)="register($event)" name="register_form" class="form-signin">
+    <h3 class="form-signin-heading">Sign up</h3>
+    <br>
+
+    <input type="text" class="form-control" name="name" placeholder="Name" required="" autofocus="" [(ngModel)]="name">
+    <input type="text" class="form-control" name="username" placeholder="Email" required="" autofocus="" [(ngModel)]="username">
+    <input type="password" class="form-control" name="password" placeholder="Password" required="" [(ngModel)]="password">
+    <input type="password" class="form-control" name="password_confirm" placeholder="Confirm password" required="" [(ngModel)]="password_confirm">
+
+    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+    <button type="submit" class="btn btn-lg btn-primary btn-block" name="submit" value="Login">Sign up</button>
+
+    <hr>
+    <a routerLink="/login" class="form-link">Sign in</a>
+
+  </form>
+</div>
