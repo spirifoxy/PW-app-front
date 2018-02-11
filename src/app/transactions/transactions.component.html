@@ -1,3 +1,35 @@
-<p>
-  transactions works!
-</p>
+<button type="button" (click)="modal.show()">test</button>
+  <app-modal #modal>
+    <div class="app-modal-header">
+      Create transaction
+    </div>
+    <div class="app-modal-body">
+      <div class="mat-app-background basic-container">
+        <form (submit)="createTransaction($event)" name="create_transaction" class="transaction-form">
+          <mat-form-field class="field-full-width">
+            <input matInput placeholder="User" aria-label="User" [matAutocomplete]="auto" required="" [formControl]="userSelectCtrl">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
+                <span>{{ user.name }}</span> |
+                <small>Email: {{user.username}}</small>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <br>
+
+          <mat-form-field class="field-full-width">
+            <input matInput placeholder="Amount" aria-label="Amount" name="amount" required="" [(ngModel)]="amount">
+          </mat-form-field>
+
+          <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+          <div class="button-row">
+            <button mat-raised-button (click)="modal.hide()">Cancel</button>
+            <button mat-raised-button color="primary">Send</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </app-modal>

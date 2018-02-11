@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from '../auth.service';
+import {AuthService} from '../_services/auth.service';
 import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./../login/login.component.css']
+  styleUrls: ['../login/login.component.css']
 })
 export class RegisterComponent implements OnInit {
 
@@ -29,8 +29,6 @@ export class RegisterComponent implements OnInit {
     e.preventDefault();
 
     this.error =  '';
-    console.log(this.password);
-    console.log(this.password_confirm);
     if (this.password && !this.password_confirm) {
       this.error = 'Confirm your password';
       return;
