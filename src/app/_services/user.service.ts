@@ -4,6 +4,7 @@ import {User} from '../_models/user';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs/Observable';
 import {AuthService} from './auth.service';
+import {Transaction} from '../_models/transaction';
 
 @Injectable()
 export class UserService {
@@ -20,6 +21,12 @@ export class UserService {
   get = {
     usersForSelector: (): Promise<User[]> => {
       return this.http.get<User[]>(environment.apiEndpoint + '/users/select').map(response => {
+        console.log(response);
+        return response;
+      }).toPromise();
+    },
+    userTransactions: (): Promise<Transaction[]> => {
+      return this.http.get<Transaction[]>(environment.apiEndpoint + '/user/transactions').map(response => {
         console.log(response);
         return response;
       }).toPromise();
