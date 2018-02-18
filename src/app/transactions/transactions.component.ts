@@ -6,6 +6,7 @@ import {UserService} from '../_services/user.service';
 import {User} from '../_models/user';
 import {MatSort, MatTableDataSource} from '@angular/material';
 import {Transaction} from '../_models/transaction';
+import {ModalComponent} from '../modal/modal.component';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class TransactionsComponent implements OnInit {
 
   displayedColumns = ['created_at', 'name', 'amount', 'cur_balance'];
 
+  @ViewChild(ModalComponent) modalComponent: ModalComponent;
   @ViewChild(MatTableDataSource) dataSource: MatTableDataSource<Transaction>;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -36,26 +38,19 @@ export class TransactionsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.fetchUsersForSelector().then(users => {
-      this.users = users;
-      this.filteredUsers = this.userSelectCtrl.valueChanges
-          .pipe(
-            startWith(''),
-            map(user => user ? this.filterUsers(user) : this.users.slice())
-          );
-    });
+    this.updateUsersForSelector();
 
     this.fetchUserTransactions().then(transactions => {
       this.transactions = transactions;
       this.dataSource = new MatTableDataSource(this.transactions);
       this.dataSource.sort = this.sort;
     });
-
   }
 
   filterUsers(selectedUser: any) {
+    selectedUser = selectedUser.name ? selectedUser.name : selectedUser;
     return this.users.filter(user =>
-      user.name.toLowerCase().indexOf(selectedUser.name.toLowerCase()) === 0);
+      user.name.toLowerCase().indexOf(selectedUser.toLowerCase()) === 0);
   }
 
   filterTransactions(filterValue: string) {
@@ -68,6 +63,16 @@ export class TransactionsComponent implements OnInit {
     return user ? user.name : undefined;
   }
 
+  updateUsersForSelector(): void {
+    this.fetchUsersForSelector().then(users => {
+      this.users = users;
+      this.filteredUsers = this.userSelectCtrl.valueChanges
+        .pipe(
+          startWith(''),
+          map(user => user ? this.filterUsers(user) : this.users.slice())
+        );
+    });
+  }
 
   fetchUsersForSelector(): Promise<User[]> {
     return this.userService.get.usersForSelector();
@@ -81,14 +86,19 @@ export class TransactionsComponent implements OnInit {
 
     e.preventDefault();
 
-    if (!this.amount || ! this.userSelectCtrl.value.id) {
+    if (!this.amount) {
+      return;
+    }
+
+    if (!this.userSelectCtrl.value.id) {
+      this.error = 'Choose user from the list';
       return;
     }
 
     this.userService.sendMoney(this.userSelectCtrl.value.id, this.amount)
       .subscribe(result => {
 
-        console.log(result);
+        this.modalComponent.hide();
 
       }, sendError => this.error = sendError.message);
   }

@@ -43,7 +43,7 @@
       <input matInput (keyup)="filterTransactions($event.target.value)" placeholder="Filter" size="4">
     </mat-form-field>
     <span class="spacer"></span>
-    <button mat-raised-button color="primary" (click)="modal.show()">Create transactions</button>
+    <button mat-raised-button color="primary" (click)="updateUsersForSelector(); modal.show()">Create transactions</button>
 
   </div>
 

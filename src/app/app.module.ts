@@ -103,8 +103,8 @@ export class MaterialModule {}
     LoginComponent,
     RegisterComponent,
     HeaderComponent,
-    TransactionsComponent,
     ModalComponent,
+    TransactionsComponent,
   ],
   imports: [
     BrowserModule,
