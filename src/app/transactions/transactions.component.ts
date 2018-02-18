@@ -116,7 +116,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     const amount = this.transactionForm.controls['amount'].value;
 
     if (!amount || amount < 0.1) {
-      this.error = 'Negative amount is not allowed';
+      this.error = 'Zero or negative amount is not allowed';
       return;
     }
 

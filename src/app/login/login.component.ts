@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
                private userService: UserService) {}
 
   ngOnInit() {
-    this.authenticationService.logout(); // TODO remove that
     if (AuthService.isUserAuthorized()) {
       this.router.navigate(['/transactions']);
     }
@@ -36,6 +35,11 @@ export class LoginComponent implements OnInit {
         console.log(result);
         this.userService.get.currentUser()
           .then(user => {
+
+            if (user.user_account.status === 1) {
+              this.error = 'You have been banned';
+              return;
+            }
 
             this.authenticationService.setCurrentUser(user);
             this.router.navigate(['/transactions']);

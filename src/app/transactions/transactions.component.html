@@ -56,7 +56,8 @@
 
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      <mat-cell *matCellDef="let element"><span *ngIf="element.name;else name_system">{{element.name}}</span></mat-cell>
+      <ng-template #name_system>System</ng-template>
     </ng-container>
 
     <ng-container matColumnDef="amount">

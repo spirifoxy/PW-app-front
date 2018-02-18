@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this.updateBalance(result);
           }
 
-        }, error => console.log(error));
+        }, error => this.authService.logout());
       });
   }
 
