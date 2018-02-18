@@ -17,17 +17,25 @@ export class UserService {
     this.headers.append('Content-Type', 'application/json');
   }
 
-
   get = {
+    currentUser: (): Promise<User> => {
+      return this.http.get<User>(environment.apiEndpoint + '/user/current').map(response => {
+        console.log(response);
+        return response;
+      }).toPromise();
+    },
+    currentBalance: (): Observable<number> => {
+      return this.http.get<number>(environment.apiEndpoint + '/user/balance').map(response => {
+        return response;
+      });
+    },
     usersForSelector: (): Promise<User[]> => {
       return this.http.get<User[]>(environment.apiEndpoint + '/users/select').map(response => {
-        console.log(response);
         return response;
       }).toPromise();
     },
     userTransactions: (): Promise<Transaction[]> => {
       return this.http.get<Transaction[]>(environment.apiEndpoint + '/user/transactions').map(response => {
-        console.log(response);
         return response;
       }).toPromise();
     }
@@ -43,10 +51,6 @@ export class UserService {
         console.log(response);
         return response;
       }).catch(AuthService.handleError);
-  }
-
-  getAll() {
-    return this.http.get<User[]>('/api/users/all');
   }
 
 }

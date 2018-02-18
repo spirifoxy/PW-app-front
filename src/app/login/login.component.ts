@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../_services/auth.service';
-import {AuthGuard} from '../auth.guard';
+import {UserService} from '../_services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
 
   constructor( private router: Router,
                private authenticationService: AuthService,
-               private authenticationGuard: AuthGuard) {}
+               private userService: UserService) {}
 
   ngOnInit() {
     this.authenticationService.logout(); // TODO remove that
@@ -30,16 +30,18 @@ export class LoginComponent implements OnInit {
 
     e.preventDefault();
 
-
     this.authenticationService.login(this.username, this.password)
       .subscribe(result => {
 
         console.log(result);
-        this.router.navigate(['/transactions']);
+        this.userService.get.currentUser()
+          .then(user => {
 
+            this.authenticationService.setCurrentUser(user);
+            this.router.navigate(['/transactions']);
+
+          });
       }, loginError => this.error = loginError.message);
-
-
   }
 
 }

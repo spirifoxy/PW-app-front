@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Http, Headers, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Router} from '@angular/router';
+import {User} from '../_models/user';
 
 @Injectable()
 export class AuthService {
 
+  private user: User;
   private token: string;
 
   constructor(private http: HttpClient,
@@ -36,7 +37,13 @@ export class AuthService {
     return this.http.post(environment.apiEndpoint + '/login_check', data, {headers : headers})
       .map((response) => {
 
-          return this.setCurrentUser(username, response);
+      const token = response && response.token;
+      if (!token) {
+        return false;
+      }
+      this.setToken(token);
+
+      return true;
       }).catch(AuthService.handleError);
   }
 
@@ -53,19 +60,24 @@ export class AuthService {
 
     return this.http.post<any>(environment.apiEndpoint + '/register', data, {headers : headers})
       .map((response) => {
-
-        return this.setCurrentUser(username, response);
+        const token = response && response.token;
+        if (!token) {
+          return false;
+        }
+        this.setToken(token);
       }).catch(AuthService.handleError);
   }
 
-  private setCurrentUser(username: string, response) {
-    const token = response && response.token;
-    if (token) {
-      this.token = token;
-      localStorage.setItem('currentUser', JSON.stringify({ username: username, token: token }));
-      return true;
-    }
-    return false;
+  public setCurrentUser(user: User) {
+
+    this.user = user;
+    localStorage.setItem('currentUser', JSON.stringify({user}));
+
+  }
+
+  private setToken(token: string) {
+    this.token = token;
+    localStorage.setItem('token', token);
   }
 
 }

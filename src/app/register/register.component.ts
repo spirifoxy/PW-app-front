@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../_services/auth.service';
 import {Router} from '@angular/router';
+import {UserService} from '../_services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,8 @@ export class RegisterComponent implements OnInit {
   error: string;
 
   constructor( private router: Router,
-               private authenticationService: AuthService) {}
+               private authenticationService: AuthService,
+               private userService: UserService) {}
 
   ngOnInit() {
     if (AuthService.isUserAuthorized()) {
@@ -41,8 +43,13 @@ export class RegisterComponent implements OnInit {
     this.authenticationService.register(this.name, this.username, this.password)
       .subscribe(result => {
 
-        this.router.navigate(['/transactions']);
+      this.userService.get.currentUser()
+        .then(user => {
 
+          this.authenticationService.setCurrentUser(user);
+          this.router.navigate(['/transactions']);
+
+        });
       }, registerError => this.error = registerError.message);
 
   }

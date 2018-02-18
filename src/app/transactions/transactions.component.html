@@ -6,9 +6,9 @@
   </div>
   <div class="app-modal-body">
     <div class="mat-app-background basic-container">
-      <form (submit)="createTransaction($event)" name="create_transaction" class="transaction-form">
+      <form (submit)="createTransaction($event)" [formGroup]="transactionForm" class="transaction-form">
         <mat-form-field class="field-full-width">
-          <input matInput placeholder="User" aria-label="User" [matAutocomplete]="auto" required="" [formControl]="userSelectCtrl">
+          <input matInput placeholder="User" aria-label="User" [matAutocomplete]="auto" required="" formControlName="userSelect">
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
             <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
               <span>{{ user.name }}</span> |
@@ -20,7 +20,7 @@
         <br>
 
         <mat-form-field class="field-full-width">
-          <input matInput placeholder="Amount" aria-label="Amount" name="amount" required="" [(ngModel)]="amount">
+          <input matInput placeholder="Amount" aria-label="Amount" required="" formControlName="amount">
         </mat-form-field>
 
         <div *ngIf="error" class="alert alert-danger">{{error}}</div>

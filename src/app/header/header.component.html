@@ -1,5 +1,7 @@
 <mat-toolbar color="primary" class="header">
   <button mat-button routerLink="/transactions"><mat-icon>home</mat-icon>{{title}}</button>
   <span class="spacer"></span>
+  <span class="header-name">{{user}}</span>
+  <span class="header-balance">{{balance | number:'1.2-2'}}<mat-icon>account_balance_wallet</mat-icon></span>
   <button mat-button (click)="logout($event)" class="button-logout"><mat-icon>ic_exit_to_app</mat-icon>Logout</button>
 </mat-toolbar>

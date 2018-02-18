@@ -3,6 +3,21 @@
 }
 
 .button-logout {
+  margin-left: 45px;
   padding-left: 0px;
   padding-right: 40px;
+}
+
+.header span {
+  margin: 0 15px;
+}
+
+.header .name {
+  max-width: 400px;
+  overflow: hidden;
+}
+
+.header span mat-icon {
+  line-height: 20px;
+  vertical-align: middle;
 }
