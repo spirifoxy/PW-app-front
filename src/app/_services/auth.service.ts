@@ -4,15 +4,17 @@ import {Http, Headers, Response} from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
-import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
-import {environment} from "../../environments/environment";
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
+import {environment} from '../../environments/environment';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class AuthService {
 
   private token: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private router: Router) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.token = currentUser && currentUser.token;
   }
@@ -26,10 +28,10 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<boolean> {
-    let headers = new HttpHeaders();
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    let data = {username: username, password: password};
+    const data = {username: username, password: password};
 
     return this.http.post(environment.apiEndpoint + '/login_check', data, {headers : headers})
       .map((response) => {
@@ -41,11 +43,12 @@ export class AuthService {
   logout(): void {
     this.token = null;
     localStorage.removeItem('currentUser');
+    this.router.navigate(['/login']);
   }
 
   register(name: string, username: string, password: string): Observable<boolean> {
-    let data = {name: name, username: username, password: password};
-    let headers = new HttpHeaders();
+    const data = {name: name, username: username, password: password};
+    const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
     return this.http.post<any>(environment.apiEndpoint + '/register', data, {headers : headers})

@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
-
-
 import {CdkTableModule} from '@angular/cdk/table';
 import {
   MatAutocompleteModule,
@@ -51,6 +49,7 @@ import { RegisterComponent } from './register/register.component';
 import {UserService} from './_services/user.service';
 import {JwtInterceptor} from './jwt-interceptor';
 import { ModalComponent } from './modal/modal.component';
+import { HeaderComponent } from './header/header.component';
 
 const routes: Routes = [
   {path: 'login', component : LoginComponent},
@@ -95,7 +94,7 @@ const routes: Routes = [
     MatTooltipModule,
   ]
 })
-export class DemoMaterialModule {}
+export class MaterialModule {}
 
 
 @NgModule({
@@ -103,6 +102,7 @@ export class DemoMaterialModule {}
     AppComponent,
     LoginComponent,
     RegisterComponent,
+    HeaderComponent,
     TransactionsComponent,
     ModalComponent,
   ],
@@ -113,7 +113,7 @@ export class DemoMaterialModule {}
 
     BrowserAnimationsModule,
     HttpClientModule,
-    DemoMaterialModule,
+    MaterialModule,
     MatNativeDateModule,
     ReactiveFormsModule,
 
